@@ -466,6 +466,16 @@
 </footer>
 
 <script>
+// ── Check Formspree success redirect ──
+if(window.location.search.includes('success')){
+  const form=document.getElementById('membForm');
+  const succ=document.getElementById('membSuccess');
+  if(form) form.style.display='none';
+  if(succ) succ.style.display='block';
+  // Clean URL
+  window.history.replaceState({},'',window.location.pathname+'#manm');
+}
+
 // ── Scroll reveal ──
 const obs=new IntersectionObserver((entries)=>{
   entries.forEach((e,i)=>{
@@ -506,7 +516,9 @@ async function handleSubmit(e){
     });
     if(res.ok){
       form.style.display='none';
-      document.getElementById('membSuccess').style.display='block';
+      const succ=document.getElementById('membSuccess');
+      succ.style.display='block';
+      succ.scrollIntoView({behavior:'smooth'});
       document.getElementById('membName').textContent=nom+' '+prenom;
     } else {
       throw new Error('Formspree error');
