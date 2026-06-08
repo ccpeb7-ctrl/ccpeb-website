@@ -502,29 +502,48 @@ async function handleSubmit(e){
   e.preventDefault();
   const btn=document.getElementById('membBtn');
   const form=document.getElementById('membForm');
-  btn.disabled=true;btn.textContent='Envoi en cours…';
+  btn.disabled=true;
+  btn.textContent='Envoi en cours…';
 
-  const data=new FormData(form);
-  const nom=data.get('nom');
-  const prenom=data.get('prenom');
+  const fd=new FormData(form);
+  const nom=fd.get('nom')||'';
+  const prenom=fd.get('prenom')||'';
+
+  // Build JSON object
+  const payload={};
+  fd.forEach((v,k)=>{ payload[k]=v; });
 
   try{
-    const res=await fetch(form.action,{
+    const res=await fetch('https://formspree.io/f/mdavgddk',{
       method:'POST',
-      body:data,
-      headers:{'Accept':'application/json'}
+      body:JSON.stringify(payload),
+      headers:{
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+      }
     });
-    if(res.ok){
+
+    const json=await res.json();
+
+    if(res.ok && !json.errors){
+      // Siksè!
       form.style.display='none';
       const succ=document.getElementById('membSuccess');
       succ.style.display='block';
-      succ.scrollIntoView({behavior:'smooth'});
-      document.getElementById('membName').textContent=nom+' '+prenom;
+      succ.scrollIntoView({behavior:'smooth',block:'center'});
+      const nameEl=document.getElementById('membName');
+      if(nameEl) nameEl.textContent=nom+' '+prenom;
     } else {
-      throw new Error('Formspree error');
+      const msg=(json.errors&&json.errors[0]&&json.errors[0].message)||'Erè envoi';
+      console.error('Formspree:', msg);
+      alert('Erè: '+msg+'
+Rele nou: +509 4789-8613');
+      btn.disabled=false;
+      btn.textContent='🌿 Soumettre Mon Inscription';
     }
   }catch(err){
-    alert('Erreur envoi. Appelez-nous directement: +509 4789-8613');
+    console.error('Fetch error:',err);
+    alert('Erè rezo. Rele nou: +509 4789-8613');
     btn.disabled=false;
     btn.textContent='🌿 Soumettre Mon Inscription';
   }
