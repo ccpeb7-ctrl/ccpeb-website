@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>C.C.P.E.B — Caisse Collective Petite Épargne de Bainet</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     :root{
       --gd:#0a4a2e;--gm:#1a7a4a;--gl:#2db87a;
@@ -313,7 +314,7 @@
     <p style="color:#4a7a5a;line-height:1.8;margin-bottom:2rem;font-size:1.05rem">Remplissez ce formulaire pour commencer votre processus d'inscription. L'équipe C.C.P.E.B vous contactera dans les 24-48 heures pour confirmer votre rendez-vous au bureau.</p>
 
     <div class="form-card reveal">
-      <form id="membForm" onsubmit="return submitMemb(event)">
+      <form id="membForm" action="https://formspree.io/f/mdavgddk" method="POST" onsubmit="return handleSubmit(event)">
         <div class="form-grid">
           <div class="form-group">
             <label>Nom <span class="required">*</span></label>
@@ -504,67 +505,36 @@ function goTo(n){
 }
 setInterval(()=>goTo((cur+1)%slides.length),4500);
 
-// ── Fòmilè Manm (Resend) ──
-async function submitMemb(e){
+// ── Fòmilè Manm (Formspree) ──
+async function handleSubmit(e){
   e.preventDefault();
   const btn=document.getElementById('membBtn');
+  const form=document.getElementById('membForm');
   btn.disabled=true;btn.textContent='Envoi en cours…';
-  const fd=new FormData(e.target);
-  const nom=fd.get('nom');
-  const prenom=fd.get('prenom');
 
-  const htmlBody=`
-    <h2 style="color:#0a4a2e">🆕 Nouvelle Demande d'Inscription — C.C.P.E.B</h2>
-    <table style="border-collapse:collapse;width:100%">
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>Nom</b></td><td style="padding:8px;border:1px solid #cce">${nom}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>Prénom</b></td><td style="padding:8px;border:1px solid #cce">${prenom}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>Téléphone</b></td><td style="padding:8px;border:1px solid #cce">${fd.get('telefon')}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>Email</b></td><td style="padding:8px;border:1px solid #cce">${fd.get('email')||'—'}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>Date de Naissance</b></td><td style="padding:8px;border:1px solid #cce">${fd.get('dat_nesans')}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>Sexe</b></td><td style="padding:8px;border:1px solid #cce">${fd.get('seks')}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>Adresse</b></td><td style="padding:8px;border:1px solid #cce">${fd.get('adres')}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>Occupation</b></td><td style="padding:8px;border:1px solid #cce">${fd.get('okipasyon')||'—'}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>CIN/NIF</b></td><td style="padding:8px;border:1px solid #cce">${fd.get('nif')||'—'}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>Type de Compte</b></td><td style="padding:8px;border:1px solid #cce">${fd.get('tip_kont')}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>Dépôt Initial</b></td><td style="padding:8px;border:1px solid #cce">${fd.get('depozit')||'0'} HTG</td></tr>
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>Références</b></td><td style="padding:8px;border:1px solid #cce">${fd.get('referans')||'—'}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>Notes</b></td><td style="padding:8px;border:1px solid #cce">${fd.get('not_')||'—'}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #cce;background:#f0f8f0"><b>Date</b></td><td style="padding:8px;border:1px solid #cce">${new Date().toLocaleString('fr-HT')}</td></tr>
-    </table>
-  `;
+  const data=new FormData(form);
+  const nom=data.get('nom');
+  const prenom=data.get('prenom');
 
   try{
-    const res = await fetch('https://api.resend.com/emails',{
+    const res=await fetch(form.action,{
       method:'POST',
-      headers:{
-        'Authorization':'Bearer re_JVhhb4Gu_96RjgcCz9kUW2hub99UeHHqM',
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        from:'CCPEB <onboarding@resend.dev>',
-        to:['ccpeb7@gmail.com'],
-        subject:'🆕 Nouvelle Demande Membre — '+nom+' '+prenom,
-        html:htmlBody
-      })
+      body:data,
+      headers:{'Accept':'application/json'}
     });
-
     if(res.ok){
-      document.getElementById('membForm').style.display='none';
+      form.style.display='none';
       document.getElementById('membSuccess').style.display='block';
       document.getElementById('membName').textContent=nom+' '+prenom;
     } else {
-      const err = await res.json();
-      console.error('Resend error:',err);
-      alert('Erreur envoi. Appelez-nous: +509 4789-8613');
-      btn.disabled=false;
-      btn.textContent='🌿 Soumettre Mon Inscription';
+      throw new Error('Formspree error');
     }
   }catch(err){
-    console.error('Fetch error:',err);
-    alert('Erreur réseau. Appelez-nous: +509 4789-8613');
+    alert('Erreur envoi. Appelez-nous directement: +509 4789-8613');
     btn.disabled=false;
     btn.textContent='🌿 Soumettre Mon Inscription';
   }
+  return false;
 }
 </script>
 </body>
