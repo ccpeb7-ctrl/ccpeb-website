@@ -499,15 +499,43 @@ setInterval(()=>goTo((cur+1)%slides.length),4500);
 
 // ── Fòmilè Manm (Formspree) ──
 async function handleSubmit(e){
-  if(e) e.preventDefault();
+  if(e){ e.preventDefault(); e.stopPropagation(); }
   const btn=document.getElementById('membBtn');
   const form=document.getElementById('membForm');
   if(!form) return false;
-  
-  // Validate required fields
-  const nom=form.nom.value.trim();
-  const prenom=form.prenom.value.trim();
-  if(!nom||!prenom){alert('Tanpri ranpli Nom ak Prénom!');return false;}
+  const nom=(form.nom&&form.nom.value||'').trim();
+  const prenom=(form.prenom&&form.prenom.value||'').trim();
+  if(!nom||!prenom){ alert('Tanpri ranpli Nom ak Prénom!'); return false; }
+  btn.disabled=true;
+  btn.textContent='Envoi en cours…';
+  const payload={};
+  new FormData(form).forEach((v,k)=>{ if(typeof v==='string') payload[k]=v; });
+  try{
+    const res=await fetch('https://formspree.io/f/mdavgddk',{
+      method:'POST',
+      body:JSON.stringify(payload),
+      headers:{'Accept':'application/json','Content-Type':'application/json'}
+    });
+    const json=await res.json();
+    if(res.ok&&!json.errors){
+      form.style.display='none';
+      const succ=document.getElementById('membSuccess');
+      succ.style.display='block';
+      succ.scrollIntoView({behavior:'smooth',block:'center'});
+      const nameEl=document.getElementById('membName');
+      if(nameEl) nameEl.textContent=nom+' '+prenom;
+    } else {
+      alert('Erè envoi. Rele nou: +509 4789-8613');
+      btn.disabled=false;
+      btn.textContent='🌿 Soumettre Mon Inscription';
+    }
+  } catch(err){
+    alert('Erè rezo. Rele nou: +509 4789-8613');
+    btn.disabled=false;
+    btn.textContent='🌿 Soumettre Mon Inscription';
+  }
+  return false;
+}
   
   btn.disabled=true;
   btn.textContent='Envoi en cours…';
