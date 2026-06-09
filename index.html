@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>C.C.P.E.B — Caisse Collective Petite Épargne de Bainet</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  
   <style>
     :root{
       --gd:#0a4a2e;--gm:#1a7a4a;--gl:#2db87a;
@@ -314,7 +314,7 @@
     <p style="color:#4a7a5a;line-height:1.8;margin-bottom:2rem;font-size:1.05rem">Remplissez ce formulaire pour commencer votre processus d'inscription. L'équipe C.C.P.E.B vous contactera dans les 24-48 heures pour confirmer votre rendez-vous au bureau.</p>
 
     <div class="form-card reveal">
-      <form id="membForm" onsubmit="handleSubmit(event);return false;">
+      <form id="membForm">
         <div class="form-grid">
           <div class="form-group">
             <label>Nom <span class="required">*</span></label>
@@ -372,7 +372,7 @@
         <div style="background:#f0faf5;border-radius:8px;padding:1rem;margin-bottom:1rem;font-size:.85rem;color:#2d6a4a;line-height:1.6">
           ✅ <strong>Prochaine étape :</strong> Après avoir soumis ce formulaire, un membre de l'équipe C.C.P.E.B vous contactera pour confirmer votre inscription et vous donner un rendez-vous au bureau (Denard, 2e section Troue-Mahaut, Bainet).
         </div>
-        <button type="button" class="form-submit" id="membBtn" onclick="handleSubmit(event)">🌿 Soumettre Mon Inscription</button>
+        <button type="button" id="membBtn" class="form-submit" onclick="handleSubmit()">🌿 Soumettre Mon Inscription</button>
       </form>
       <div class="form-success" id="membSuccess">
         <div style="font-size:3rem;margin-bottom:.5rem">✅</div>
@@ -466,23 +466,10 @@
 </footer>
 
 <script>
-// ── Check Formspree success redirect ──
-if(window.location.search.includes('success')){
-  const form=document.getElementById('membForm');
-  const succ=document.getElementById('membSuccess');
-  if(form) form.style.display='none';
-  if(succ) succ.style.display='block';
-  // Clean URL
-  window.history.replaceState({},'',window.location.pathname+'#manm');
-}
-
 // ── Scroll reveal ──
 const obs=new IntersectionObserver((entries)=>{
   entries.forEach((e,i)=>{
-    if(e.isIntersecting){
-      setTimeout(()=>e.target.classList.add('visible'),i*80);
-      obs.unobserve(e.target);
-    }
+    if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);}
   });
 },{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
@@ -497,79 +484,51 @@ function goTo(n){
 }
 setInterval(()=>goTo((cur+1)%slides.length),4500);
 
-// ── Fòmilè Manm (Formspree) ──
-async function handleSubmit(e){
-  if(e){ e.preventDefault(); e.stopPropagation(); }
-  const btn=document.getElementById('membBtn');
-  const form=document.getElementById('membForm');
-  if(!form) return false;
-  const nom=(form.nom&&form.nom.value||'').trim();
-  const prenom=(form.prenom&&form.prenom.value||'').trim();
-  if(!nom||!prenom){ alert('Tanpri ranpli Nom ak Prénom!'); return false; }
+// ── Formspree Submit ──
+async function handleSubmit(){
+  var form=document.getElementById('membForm');
+  var btn=document.getElementById('membBtn');
+  var nom=document.querySelector('[name="nom"]').value.trim();
+  var prenom=document.querySelector('[name="prenom"]').value.trim();
+  var telefon=document.querySelector('[name="telefon"]').value.trim();
+  
+  if(!nom||!prenom||!telefon){
+    alert('Tanpri ranpli: Nom, Prénom, Téléphone');
+    return;
+  }
+  
   btn.disabled=true;
   btn.textContent='Envoi en cours…';
-  const payload={};
-  new FormData(form).forEach((v,k)=>{ if(typeof v==='string') payload[k]=v; });
-  try{
-    const res=await fetch('https://formspree.io/f/mdavgddk',{
-      method:'POST',
-      body:JSON.stringify(payload),
-      headers:{'Accept':'application/json','Content-Type':'application/json'}
-    });
-    const json=await res.json();
-    if(res.ok&&!json.errors){
+  
+  var data={};
+  var fd=new FormData(form);
+  fd.forEach(function(v,k){ if(typeof v==='string') data[k]=v; });
+  
+  fetch('https://formspree.io/f/mdavgddk',{
+    method:'POST',
+    body:JSON.stringify(data),
+    headers:{'Accept':'application/json','Content-Type':'application/json'}
+  })
+  .then(function(res){ return res.json().then(function(j){ return {ok:res.ok,j:j}; }); })
+  .then(function(r){
+    if(r.ok && !r.j.errors){
       form.style.display='none';
-      const succ=document.getElementById('membSuccess');
+      var succ=document.getElementById('membSuccess');
       succ.style.display='block';
-      succ.scrollIntoView({behavior:'smooth',block:'center'});
-      const nameEl=document.getElementById('membName');
-      if(nameEl) nameEl.textContent=nom+' '+prenom;
+      succ.scrollIntoView({behavior:'smooth'});
+      var el=document.getElementById('membName');
+      if(el) el.textContent=nom+' '+prenom;
     } else {
       alert('Erè envoi. Rele nou: +509 4789-8613');
       btn.disabled=false;
       btn.textContent='🌿 Soumettre Mon Inscription';
     }
-  } catch(err){
+  })
+  .catch(function(){
     alert('Erè rezo. Rele nou: +509 4789-8613');
     btn.disabled=false;
     btn.textContent='🌿 Soumettre Mon Inscription';
-  }
-  return false;
-}
-  
-  btn.disabled=true;
-  btn.textContent='Envoi en cours…';
-
-  // Build JSON payload
-  const payload={};
-  new FormData(form).forEach((v,k)=>{ if(typeof v==='string') payload[k]=v; });
-
-  try{
-    const res=await fetch('https://formspree.io/f/mdavgddk',{
-      method:'POST',
-      body:JSON.stringify(payload),
-      headers:{'Accept':'application/json','Content-Type':'application/json'}
-    });
-    const json=await res.json();
-    if(res.ok && !json.errors){
-      form.style.display='none';
-      const succ=document.getElementById('membSuccess');
-      succ.style.display='block';
-      succ.scrollIntoView({behavior:'smooth',block:'center'});
-      document.getElementById('membName').textContent=nom+' '+prenom;
-    } else {
-      const msg=(json.errors&&json.errors[0]&&json.errors[0].message)||'Erè';
-      alert('Erè: '+msg+'
-Rele nou: +509 4789-8613');
-      btn.disabled=false;
-      btn.textContent='🌿 Soumettre Mon Inscription';
-    }
-  }catch(err){
-    alert('Erè rezo. Rele nou: +509 4789-8613');
-    btn.disabled=false;
-    btn.textContent='🌿 Soumettre Mon Inscription';
-  }
-  return false;
+  });
 }
 </script>
 </body>
