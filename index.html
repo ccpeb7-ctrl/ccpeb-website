@@ -226,7 +226,15 @@
     @media(max-width:1100px){nav{padding:.8rem 1rem;flex-wrap:wrap;gap:.8rem}.nav-links{gap:1rem}.nav-logo-text span{letter-spacing:0;font-size:.65rem}}
     @media(max-width:760px){.steps,.loan-grid{grid-template-columns:1fr}.sol-grid{grid-template-columns:repeat(2,minmax(0,1fr))}section{padding:4rem 1.2rem}.services-grid{grid-template-columns:1fr}.btn{max-width:100%;white-space:normal;text-align:center;padding:.9rem 1.3rem}.hero-content{padding:7rem 1.2rem 4rem}.nav-logo-text{font-size:1rem}.nav-logo-text span{max-width:185px}.nav-btn{font-size:.7rem}.contact-cards{min-width:0}.cc-val{overflow-wrap:anywhere}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
-  </style>
+  
+    .hero-account{display:none}
+    @media(max-width:768px){
+      .nav-account{display:none}
+      .hero-cta{display:flex;flex-wrap:nowrap;width:100%;gap:.45rem;align-items:stretch}
+      .hero-cta .btn{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;padding:.8rem .35rem;font-size:clamp(.60rem,2.35vw,.75rem);letter-spacing:0;line-height:1.25;white-space:normal;text-align:center}
+      .hero-cta .hero-account{display:flex}
+    }
+</style>
 </head>
 <body>
 
@@ -244,7 +252,7 @@
     <li><a href="#politiques">Politiques</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="https://moncompte.ccpeb.com/?portal" target="_blank" style="background:transparent;color:var(--goldf);padding:.5rem 1.2rem;border-radius:2rem;text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1.5px solid var(--goldf);transition:all .3s;margin-right:.5rem">👤 Mon Compte</a><a href="https://moncompte.ccpeb.com/?portal&action=ouvrir-compte" class="nav-btn">Devenir Membre</a>
+  <a href="https://moncompte.ccpeb.com/?portal" target="_blank" class="nav-account" style="background:transparent;color:var(--goldf);padding:.5rem 1.2rem;border-radius:2rem;text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1.5px solid var(--goldf);transition:all .3s;margin-right:.5rem">👤 Mon Compte</a><a href="https://moncompte.ccpeb.com/?portal&action=ouvrir-compte" class="nav-btn">Devenir Membre</a>
 </nav>
 
 <!-- HERO -->
@@ -258,6 +266,7 @@
     <p class="hero-sub">Épargnez aujourd'hui, récoltez demain</p>
     <p class="hero-desc">La C.C.P.E.B est votre partenaire de confiance pour bâtir un avenir meilleur ensemble. Chaque gourde épargnée est une graine plantée pour votre famille et votre communauté.</p>
     <div class="hero-cta">
+      <a class="btn btn-outline hero-account" href="https://moncompte.ccpeb.com/?portal">Mon compte</a>
       <a href="https://moncompte.ccpeb.com/?portal&action=ouvrir-compte" class="btn btn-primary">Devenir Membre</a>
       <a href="#services" class="btn btn-outline">Nos Services</a>
     </div>
@@ -269,7 +278,7 @@
 <section id="about">
   <div class="about-grid">
     <div class="about-img-wrap reveal">
-      <img class="about-img" src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800&q=80" alt="Communauté"/>
+      <img class="about-img" src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80" alt="Paysage côtier, image d’illustration"/>
       <div class="about-img-label">Solidarité · Confiance</div>
     </div>
     <div class="about-text reveal">
@@ -355,7 +364,7 @@
     <p class="contact-desc">Prêt(e) à rejoindre la famille C.C.P.E.B ? Venez nous rendre visite ou contactez-nous. Nous sommes là pour vous accueillir chaleureusement.</p>
     <div class="contact-cards">
       <div class="cc-card"><div class="ico">📍</div><div class="cc-label">Adresse</div><div class="cc-val">Denard, 2e section Troue-Mahaut<br/>Bainet, S.E-Haïti</div></div>
-      <div class="cc-card"><div class="ico">📞</div><div class="cc-label">Téléphone</div><div class="cc-val">+509 4789-8613<br/>+509 4059-9569</div></div>
+      <div class="cc-card"><div class="ico">📞</div><div class="cc-label">Téléphone</div><div class="cc-val">+509 4789-8613</div></div>
       <div class="cc-card"><div class="ico">📧</div><div class="cc-label">Email</div><div class="cc-val"><a href="mailto:ccpeb7@gmail.com" style="color:var(--goldf);text-decoration:none">ccpeb7@gmail.com</a></div></div>
       <div class="cc-card"><div class="ico">🌐</div><div class="cc-label">Site Web</div><div class="cc-val">ccpeb.com</div></div>
       <div class="cc-card"><div class="ico">🕐</div><div class="cc-label">Heures d'Ouverture</div><div class="cc-val">Lundi–Samedi<br/>8h – 17h</div></div>
