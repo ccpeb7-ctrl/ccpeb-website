@@ -147,7 +147,7 @@
     /* CONTACT */
     #contact{background:var(--gd);position:relative;overflow:hidden}
     #contact::before{content:'CCPEB';position:absolute;right:-2rem;bottom:-2rem;font-family:'Playfair Display',serif;font-size:14rem;font-weight:900;color:rgba(255,255,255,.03);pointer-events:none}
-    .contact-inner{max-width:700px;margin:0 auto;text-align:center}
+    .contact-inner{max-width:1100px;margin:0 auto;text-align:center}
     #contact .section-title{color:#fff}
     #contact .section-label{color:var(--goldf)}
     #contact .divider{margin:1rem auto 2rem}
@@ -234,6 +234,19 @@
       .hero-cta .btn{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;padding:.8rem .35rem;font-size:clamp(.60rem,2.35vw,.75rem);letter-spacing:0;line-height:1.25;white-space:normal;text-align:center}
       .hero-cta .hero-account{display:flex}
     }
+
+    .contact-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"address map" "details map";gap:1.5rem 2.5rem;text-align:left;align-items:start;margin-bottom:2.5rem}
+    .contact-address{grid-area:address;margin:0;width:100%;box-sizing:border-box}
+    .contact-layout .contact-cards{grid-area:details;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:0}
+    .contact-layout .cc-card{min-width:0;padding:1.25rem}
+    .contact-map{grid-area:map;margin:0;background:#fffdf7;border:1px solid rgba(212,160,23,.55);border-radius:16px;padding:1.25rem;color:#0a4a2e;min-width:0}
+    .contact-map h3{font-family:'Playfair Display',serif;font-size:1.4rem;margin:0 0 1rem}
+    .haiti-map{display:block;width:100%;height:auto;max-width:100%}
+    .contact-map figcaption{font-size:.85rem;line-height:1.6;margin-top:1rem;color:#52695f}
+    .contact-map p{font-size:.95rem;line-height:1.6;margin:.6rem 0 0}
+    @media(max-width:760px){.contact-layout{grid-template-columns:minmax(0,1fr);grid-template-areas:"address" "map" "details";gap:1.25rem}.contact-map{padding:1rem}}
+    @media(max-width:390px){.contact-layout .contact-cards{grid-template-columns:minmax(0,1fr)}}
+
 </style>
 </head>
 <body>
@@ -362,12 +375,27 @@
     <h2 class="section-title">Contactez-Nous</h2>
     <div class="divider"></div>
     <p class="contact-desc">Prêt(e) à rejoindre la famille C.C.P.E.B ? Venez nous rendre visite ou contactez-nous. Nous sommes là pour vous accueillir chaleureusement.</p>
-    <div class="contact-cards">
-      <div class="cc-card"><div class="ico">📍</div><div class="cc-label">Adresse</div><div class="cc-val">Denard, 2e section Troue-Mahaut<br/>Bainet, S.E-Haïti</div></div>
+    <div class="contact-layout">
+      <div class="cc-card contact-address"><div class="ico">📍</div><div class="cc-label">Adresse</div><div class="cc-val">Denard, 2e section Troue-Mahaut<br/>Bainet, S.E-Haïti</div></div>
+      <figure class="contact-map"><h3>CCPEB à Bainet</h3><svg class="haiti-map" viewBox="0 0 620 440" role="img" aria-labelledby="haiti-map-title haiti-map-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="haiti-map-title">Carte d’Haïti avec la commune de Bainet</title><desc id="haiti-map-desc">Bainet se situe sur la côte sud d’Haïti, dans le département du Sud-Est. Le point repère la commune, et non l’emplacement exact du bureau.</desc>
+<rect width="620" height="440" rx="16" fill="#eef6f2"/>
+<text x="38" y="45" fill="#41675c" font-family="Arial,sans-serif" font-size="17">HAÏTI</text>
+<path d="M274.6,68.5 L372.3,75.6 L511.0,100.7 L525.0,187.8 L512.8,249.3 L473.8,276.3 L515.0,324.3 L511.7,367.8 L405.4,340.6 L329.9,351.7 L232.3,340.1 L157.4,370.0 L71.7,320.2 L85.8,268.6 L233.1,290.8 L353.8,303.7 L411.4,268.1 L338.3,198.7 L339.5,137.6 L238.6,112.7 L274.6,68.5 Z" fill="#0a4a2e" stroke="#176b49" stroke-width="2" stroke-linejoin="round"/>
+<text x="322" y="172" fill="#fff" font-family="Arial,sans-serif" font-size="24" font-weight="700">Haïti</text>
+<text x="70" y="258" fill="#668b87" font-family="Arial,sans-serif" font-size="15">Golfe de la Gonâve</text>
+<text x="90" y="408" fill="#668b87" font-family="Arial,sans-serif" font-size="16">Mer des Caraïbes</text>
+<circle cx="345" cy="345.66719999999975" r="17" fill="#d4a017" opacity=".24"/><circle cx="345" cy="345.66719999999975" r="8" fill="#d4a017" stroke="#fff" stroke-width="3"/>
+<path d="M355,350.66719999999975 L400,375 L445,375" fill="none" stroke="#9a7010" stroke-width="2"/>
+<text x="451" y="373" fill="#0a4a2e" font-family="Arial,sans-serif" font-size="21" font-weight="700">Bainet</text><text x="451" y="395" fill="#52695f" font-family="Arial,sans-serif" font-size="15">Sud-Est</text>
+<path d="M571,105 L571,64 M563,75 L571,62 L579,75" stroke="#41675c" stroke-width="2" fill="none"/><text x="565" y="51" fill="#41675c" font-family="Arial,sans-serif" font-size="15">N</text>
+</svg><figcaption>Repère de la commune de Bainet, dans le Sud-Est d’Haïti.</figcaption><p>Notre bureau : Denard, 2e section de Trou-Mahout, Bainet.</p></figure>
+      <div class="contact-cards">
       <div class="cc-card"><div class="ico">📞</div><div class="cc-label">Téléphone</div><div class="cc-val">+509 4789-8613</div></div>
       <div class="cc-card"><div class="ico">📧</div><div class="cc-label">Email</div><div class="cc-val"><a href="mailto:ccpeb7@gmail.com" style="color:var(--goldf);text-decoration:none">ccpeb7@gmail.com</a></div></div>
       <div class="cc-card"><div class="ico">🌐</div><div class="cc-label">Site Web</div><div class="cc-val">ccpeb.com</div></div>
       <div class="cc-card"><div class="ico">🕐</div><div class="cc-label">Heures d'Ouverture</div><div class="cc-val">Lundi–Samedi<br/>8h – 17h</div></div>
+      </div>
     </div>
     <a href="https://moncompte.ccpeb.com/?portal&action=ouvrir-compte" class="btn btn-primary" style="font-size:1rem;padding:1rem 2.8rem">🌿 Devenir Membre</a>
   </div>
