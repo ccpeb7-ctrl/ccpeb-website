@@ -34,7 +34,7 @@
 
     /* HERO */
     #hero{min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,74,46,.88) 0%,rgba(0,0,0,.55) 60%,rgba(212,160,23,.25) 100%),url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80') center/cover no-repeat}
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,74,46,.88) 0%,rgba(0,0,0,.55) 60%,rgba(212,160,23,.25) 100%),url('assets/littoral.webp') center/cover no-repeat}
     .orb{position:absolute;border-radius:50%;filter:blur(60px);animation:float 8s ease-in-out infinite}
     .orb1{width:400px;height:400px;background:rgba(45,184,122,.15);top:10%;left:-5%}
     .orb2{width:300px;height:300px;background:rgba(212,160,23,.12);bottom:10%;right:-5%;animation-delay:3s}
@@ -70,7 +70,7 @@
     #about{background:#fff}
     .about-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
     .about-img-wrap{position:relative}
-    .about-img{width:100%;height:480px;object-fit:cover;border-radius:4px;box-shadow:20px 20px 0 var(--gl)}
+    .about-img{width:100%;height:auto;aspect-ratio:1280/590;object-fit:contain;border-radius:4px;box-shadow:20px 20px 0 var(--gl)}
     .about-img-label{position:absolute;bottom:-20px;right:-20px;background:var(--gold);color:var(--gd);font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;padding:1rem 1.5rem;box-shadow:0 8px 24px rgba(0,0,0,.15)}
     .about-text p{font-size:1.05rem;line-height:1.8;color:#2d4a38;margin-bottom:1.2rem}
     .chips{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem}
@@ -111,11 +111,11 @@
     /* PAYSAGE */
     #paysage{background:var(--cream)}
     .paysage-inner{max-width:1100px;margin:0 auto}
-    .gallery-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:250px 250px;gap:1rem;margin-top:3rem}
+    .gallery-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto;gap:1rem;margin-top:3rem}
     .gal-item{overflow:hidden;border-radius:4px;position:relative}
-    .gal-item:first-child{grid-row:span 2}
-    .gal-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-    .gal-item:hover img{transform:scale(1.07)}
+    .gal-item:first-child{grid-column:span 3;grid-row:auto;aspect-ratio:1280/590}
+    .gal-item img{width:100%;height:100%;min-height:220px;object-fit:cover;transition:transform .5s ease}
+    .gal-item:hover img{transform:none}
     .gal-caption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(10,74,46,.85),transparent);color:#fff;padding:1rem;font-size:.82rem;opacity:0;transition:opacity .3s}
     .gal-item:hover .gal-caption{opacity:1}
 
@@ -185,9 +185,9 @@
       .nav-links,.nav-btn{display:none}
       .stats-band{gap:2rem;padding:2rem 1.5rem}
       .about-grid{grid-template-columns:1fr;gap:2rem}
-      .about-img{height:280px}
+      .about-img{height:auto}
       .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
-      .gal-item:first-child{grid-row:span 1}
+      .gal-item:first-child{grid-column:span 2;grid-row:auto}
       .form-grid{grid-template-columns:1fr}
       footer{flex-direction:column;text-align:center}
     }
@@ -278,7 +278,7 @@
 <section id="about">
   <div class="about-grid">
     <div class="about-img-wrap reveal">
-      <img class="about-img" src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80" alt="Paysage côtier, image d’illustration"/>
+      <img class="about-img" src="assets/communaute.webp" alt="Photo de groupe devant les locaux de la CCPEB"/>
       <div class="about-img-label">Solidarité · Confiance</div>
     </div>
     <div class="about-text reveal">
@@ -323,11 +323,11 @@
     <div class="divider"></div>
     <p style="color:#4a7a5a;max-width:600px;line-height:1.8;margin-bottom:1rem">Bainet, belle commune du Sud-Est d'Haïti, bénie d'une nature magnifique — mer turquoise, montagnes verdoyantes et un peuple fier et travailleur.</p>
     <div class="gallery-grid reveal">
-      <div class="gal-item"><img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80" alt="Côte"/><div class="gal-caption">🌊 Les eaux cristallines de Bainet</div></div>
-      <div class="gal-item"><img src="https://images.unsplash.com/photo-1504731732-1b8c6f31bc27?w=600&q=80" alt="Montagnes"/><div class="gal-caption">⛰️ Nos montagnes verdoyantes</div></div>
-      <div class="gal-item"><img src="https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?w=600&q=80" alt="Coucher"/><div class="gal-caption">🌅 Couchers de soleil majestueux</div></div>
-      <div class="gal-item"><img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&q=80" alt="Nature"/><div class="gal-caption">🌿 Une nature généreuse</div></div>
-      <div class="gal-item"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80" alt="Communauté"/><div class="gal-caption">🤝 Notre communauté</div></div>
+      <div class="gal-item"><img src="assets/communaute.webp" alt="Photo de groupe devant la CCPEB" loading="lazy"/><div class="gal-caption">Notre communauté</div></div>
+      <div class="gal-item"><img src="assets/service-client.webp" alt="Une caissière au service des clients de la CCPEB" loading="lazy"/><div class="gal-caption">Au service de nos clients</div></div>
+      <div class="gal-item"><img src="assets/agriculture.webp" alt="Champ cultivé entouré de montagnes" loading="lazy"/><div class="gal-caption">Agriculture et projets locaux</div></div>
+      <div class="gal-item"><img src="assets/papayes.webp" alt="Papayes sur un arbre" loading="lazy"/><div class="gal-caption">La richesse de nos cultures</div></div>
+      <div class="gal-item"><img src="assets/littoral.webp" alt="Maisons, palmiers et bateau sur le littoral" loading="lazy"/><div class="gal-caption">Notre environnement côtier</div></div>
     </div>
   </div>
 </section>
